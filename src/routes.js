@@ -1,10 +1,15 @@
 const routes = require("express").Router();
-const { User } = require("./app/models");
 
-User.create({
-	name: "Ismael",
-	email: "ismaellaet@gmail.com",
-	password_hash: "1234566777887",
+const SessionController = require("./app/controllers/SessionController");
+
+const authMiddleware = require("./app/middlewares/auth");
+
+routes.post("/login", SessionController.login);
+
+routes.use(authMiddleware);
+
+routes.get("/dashboard", (req, res) => {
+	return res.status(200).send();
 });
 
 module.exports = routes;
